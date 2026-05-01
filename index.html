@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마퓨파 효율측정</title>
+    <!-- <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon"> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js"></script>
+</head>
+<body>
+    <section id="info"></section>
+    <section id="top" class="flex">
+        <div id="base">
+            <h1>기본 전제</h1>
+            <img class="crystal" src="img/item/cash.png" alt="수정">
+            <div class="compare flex">
+                <div>
+                    <h4>수정</h4>
+                    <div class="flex">
+                        <input id="crystal" type="number"  value="2200">
+                        <!-- <input id="crystal" type="number"  value="600"> -->
+                    </div>
+                </div>
+                <span>=</span>
+                <div>
+                    <h4>현금</h4>
+                    <div class="flex">
+                        <input id="cash" type="number" value="15000">
+                        <!-- <input id="cash" type="number" value="4400"> -->
+                        <span>원</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4>수정 1 가치</h4>
+                <div class="enter">
+                    <span>= </span><span class="value"></span>
+                </div>
+            </div>
+        </div>
+        <div id="menu">
+            <div class="menu_select flex">
+                <h1>상품 목록</h1>
+                <div id="menu_btn">
+                    <span class="s_btn">단품</span>
+                    <span class="c_btn">세트</span>
+                </div>
+            </div>
+            <div id="menu_s" class="list flex">
+                <div class="ctp">
+                    <div class="item">
+                        <img class="front" src="img/item/select_ctp_advanced4.png" alt="ctp">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">CTP</h2>
+                    <h3 class="price flex">
+                        <span>2415</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="프카">
+                    <div class="item">
+                        <img class="front" src="img/item/select_premium_card.png" alt="프리미엄 카드">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">프카</h2>
+                    <h3 class="price flex">
+                        <span>2415</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="오축">
+                    <div class="item">
+                        <img class="front" src="img/item/select_item_odin_advanced1.png" alt="오딘의 축복">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">오딘의 축복</h2>
+                    <h3 class="price flex">
+                        <span>1533</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="컬렉션">
+                    <div class="item">
+                        <img class="front" src="img/item/token/token_squad_v940_02.png" alt="컬렉션 토큰">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">컬렉션 토큰</h2>
+                    <h3 class="price flex">
+                        <span>15</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="시즌">
+                    <div class="item">
+                        <img class="front" src="img/item/season/token_spring_2026.png" alt="시즌 토큰">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">30 시즌 토큰</h2>
+                    <h3 class="price flex">
+                        <span>1750</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="강력한">
+                    <div class="item">
+                        <img class="front" src="img/item/select_ctp_advanced4_01.png" alt="강력한 ctp">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">강력한 CTP</h2>
+                    <h3 class="price flex">
+                        <span>4830</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="찬란한">
+                    <div class="item">
+                        <img class="front" src="img/item/select_ctp_advanced4_02.png" alt="찬란한 ctp">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">찬란한 CTP</h2>
+                    <h3 class="price flex">
+                        <span>23000</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="우루">
+                    <div class="item">
+                        <img class="front" src="img/item/chest/shop_chest_uru_6.png" alt="신화 강화 우루">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">신화 강화 우루</h2>
+                    <h3 class="price flex">
+                        <span>73</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="각인된">
+                    <div class="item">
+                        <img class="front" src="img/item/select_item_odin_advanced1_01.png" alt="각인된 오딘의 축복">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">각인된 오딘의 축복</h2>
+                    <h3 class="price flex">
+                        <span>1533</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="오영">
+                    <div class="item">
+                        <img class="front" src="img/item/select_item_odin_advanced1_02.png" alt="오딘의 영광">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">오딘의 영광</h2>
+                    <h3 class="price flex">
+                        <span>5183</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="고승권">
+                    <div class="item">
+                        <img class="front" src="img/item/upgrade/upgrade_tier2_Advanced.png" alt="티어-2 고급 승급권">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">티어-2 고급 승급권</h2>
+                    <h3 class="price flex">
+                        <span id="t2"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="고신권">
+                    <div class="item">
+                        <img class="front" src="img/item/upgrade/upgrade_uniform_06_advanced.png" alt="유니폼 고급 강화권: 신화">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">유니폼 고급 강화권: 신화</h2>
+                    <h3 class="price flex">
+                        <span>1813</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="유니폼">
+                    <div class="item">
+                        <img class="front" src="img/item/ticket/token_uniform.png" alt="유니폼 티켓">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">유니폼 티켓</h2>
+                    <h3 class="price flex">
+                        <span>1050</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="시즌">
+                    <div class="item">
+                        <img class="front" src="img/item/ticket/token_uniform_season.png" alt="시즌 유니폼 티켓">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">시즌 유니폼 티켓</h2>
+                    <h3 class="price flex">
+                        <span>2500</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="생씨">
+                    <div class="item">
+                        <img class="front" src="img/item/tier4_gearkit_01.png" alt="생명의 씨앗">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">생명의 씨앗</h2>
+                    <h3 class="price flex">
+                        <span id="t4_1"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="카보">
+                    <div class="item">
+                        <img class="front" src="img/item/tier4_gearkit_02.png" alt="카보나디움">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">카보나디움</h2>
+                    <h3 class="price flex">
+                        <span id="t4_2"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="팔틴">
+                    <div class="item">
+                        <img class="front" src="img/item/tier4_gearkit_03.png" alt="팔틴의 영혼">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">팔틴의 영혼</h2>
+                    <h3 class="price flex">
+                        <span id="t4_3"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="4승권">
+                    <div class="item">
+                        <img class="front" src="img/item/upgrade/upgrade_tier4.png" alt="티어-4 일반 승급권">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">티어-4 일반 승급권</h2>
+                    <h3 class="price flex">
+                        <span id="t4_normal"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="4고승권">
+                    <div class="item">
+                        <img class="front" src="img/item/upgrade/upgrade_tier4_Advanced.png" alt="티어-4 고급 승급권">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">티어-4 고급 승급권</h2>
+                    <h3 class="price flex">
+                        <span id="t4_advanced"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="프4승권">
+                    <div class="item">
+                        <img class="front" src="img/item/upgrade/upgrade_premium_tier4_Advanced.png" alt="프리미엄 티어-4 고급 승급권">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">프리미엄 티어-4 고급 승급권</h2>
+                    <h3 class="price flex">
+                        <span id="t4_premium"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="전설엠블럼">
+                    <div class="item">
+                        <img class="front" src="img/item/select_emblem.png" alt="전설 엠블럼">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">전설 엠블럼</h2>
+                    <h3 class="price flex">
+                        <span id="5em"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="신화엠블럼">
+                    <div class="item">
+                        <img class="front" src="img/item/select_emblem.png" alt="신화 엠블럼">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">신화 엠블럼</h2>
+                    <h3 class="price flex">
+                        <span>?</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="특장해제">
+                    <div class="item">
+                        <img class="front" src="img/item/ability_item_11110.png" alt="특수 장비 해제">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">특수 장비 해제</h2>
+                    <h3 class="price flex">
+                        <span id="unequip"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+                <div class="우르해제">
+                    <div class="item">
+                        <img class="front" src="img/item/ability_item_11117.png" alt="강화 우루 해제">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">강화 우루 해제</h2>
+                    <h3 class="price flex">
+                        <span id="unoru"></span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+            </div>
+            <div id="menu_c" class="list flex">
+                <div class="비자금">
+                    <div class="item">
+                        <img class="front" src="img/set/chest_daily_gem_01.png" alt="토니 스타크의 비자금 MK2">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">토니 스타크의 비자금 MK2</h2>
+                    <div class="price flex">
+                        <h3 class="flex">
+                            <span>6000</span>
+                            <span>원</span>
+                        </h3>
+                        <div class="efficient"><span id="stash" class="percent"></span><span>%</span></div>
+                    </div>
+                </div>
+                <div class="비자금연속">
+                    <div class="item">
+                        <img class="front" src="img/set/chest_daily_gem_01.png" alt="(연속구매)토니 스타크의 비자금 MK2">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">(연속구매)토니 스타크의 비자금 MK2</h2>
+                    <div class="price flex">
+                        <h3 class="flex">
+                            <span>6000</span>
+                            <span>원</span>
+                        </h3>
+                        <div class="efficient"><span id="stashing" class="percent"></span><span>%</span></div>
+                    </div>
+                </div>
+                <div class="매생">
+                    <div class="item">
+                        <img class="front" src="img/set/chest_daily_biometrics_01.png" alt="매일 매일 생체 데이터 30개">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">매일 매일 생체 데이터 30개</h2>
+                    <div class="price flex">
+                        <h3 class="flex">
+                            <span>15000</span>
+                            <span>원</span>
+                        </h3>
+                        <div class="efficient"><span id="every" class="percent"></span><span>%</span></div>
+                    </div>
+                </div>
+                <div class="매엑">
+                    <div class="item">
+                        <img class="front" src="img/set/chest_daily_xgene_01.png" alt="매일 매일 X-유전자 30개">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">매일 매일 X-유전자 30개</h2>
+                    <div class="price flex">
+                        <h3 class="flex">
+                            <span>15000</span>
+                            <span>원</span>
+                        </h3>
+                        <div class="efficient"><span id="everyx" class="percent"></span><span>%</span></div>
+                    </div>
+                </div>
+                <div class="매일4티패키지">
+                    <div class="item">
+                        <img class="front" src="img/set/sddc1774252278285.png" alt="365일 매일 티어-4 재료">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">365일 매일 티어-4 재료</h2>
+                    <div class="price flex">
+                        <h3 class="flex">
+                            <span>45000</span>
+                            <span>원</span>
+                        </h3>
+                        <div class="efficient"><span id="365tier4" class="percent">365</span><span>%</span></div>
+                    </div>
+                </div>
+                <div class="4티재료패키지">
+                    <div class="item">
+                        <img class="front" src="img/set/5gko1754449283059.png" alt="티어-4 재료 패키지 #2">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">티어-4 재료 패키지 #2</h2>
+                    <div class="price flex">
+                        <h3 class="flex">
+                            <span>119000</span>
+                            <span>원</span>
+                        </h3>
+                        <div class="efficient"><span class="percent">100</span><span>%</span></div>
+                    </div>
+                </div>
+                <div class="특장해제패키지">
+                    <div class="item">
+                        <img class="front" src="img/set/shop_pack_special_equip_free.png" alt="핫딜! 특수 장비 해제 패키지">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">핫딜! 특수 장비 해제 패키지</h2>
+                    <div class="price flex">
+                        <h3 class="flex">
+                            <span>12000</span>
+                            <span>원</span>
+                        </h3>
+                        <div class="efficient"><span class="percent">100</span><span>%</span></div>
+                    </div>
+                </div>
+                <div class="우루해제패키지">
+                    <div class="item">
+                        <img class="front" src="img/set/shop_pack_special_equip_free.png" alt="핫딜! 강화 우루 해제 패키지">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">핫딜! 강화 우루 해제 패키지</h2>
+                    <div class="price flex">
+                        <h3 class="flex">
+                            <span>12000</span>
+                            <span>원</span>
+                        </h3>
+                        <div class="efficient"><span class="percent">100</span><span>%</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
