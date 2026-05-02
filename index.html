@@ -43,9 +43,10 @@
         <div id="menu">
             <div class="menu_select flex">
                 <h1>상품 목록</h1>
-                <div id="menu_btn">
+                <div id="menu_btn" class="menu_btn">
                     <span class="s_btn">단품</span>
                     <span class="c_btn">세트</span>
+                    <span class="r_btn">랜덤</span>
                 </div>
             </div>
             <div id="menu_s" class="list flex">
@@ -287,6 +288,7 @@
                     </div>
                     <h2 class="title">신화 엠블럼</h2>
                     <h3 class="price flex">
+                        <span>9860</span>
                         <span>?</span>
                         <img class="menu_crystal" src="img/item/cash.png" alt="수정">
                     </h3>
@@ -428,17 +430,42 @@
                     </div>
                 </div>
             </div>
+            <div id="menu_r" class="list flex">
+                <div class="r_ctp">
+                    <div class="item">
+                        <img class="front" src="img/item/chest/chest_CTP.png" alt="랜덤 CTP">
+                        <img class="back" src="img/item_bg.png" alt="배경">
+                    </div>
+                    <h2 class="title">랜덤 CTP</h2>
+                    <h3 class="price flex">
+                        <span>?</span>
+                        <img class="menu_crystal" src="img/item/cash.png" alt="수정">
+                    </h3>
+                </div>
+            </div>
         </div>
     </section>
     <section id="calculate">
-        <div class="table">
-            <div id="check_menu_btn" class="flex">
-                <div class="cmbtn_cash">현금</div>
-                <div class="cmbtn_crystal">수정</div>
+        <div class="table flex">
+            <div id="result">
+                <div class="menu_select flex">
+                    <h1>효율 기준</h1>
+                    <div id="check_menu_btn" class="menu_btn">
+                        <span class="cmbtn_cash">현금</span>
+                        <span class="cmbtn_crystal">수정</span>
+                    </div>
+                </div>
+                <div class="check">
+                    <div id="check_cash" class="stand on">
+                        <input type="number">원
+                    </div>
+                    <div id="check_crystal" class="stand">
+                        <input type="number">수정
+                    </div>
+                </div>
             </div>
-            <div class="check">
-                <input type="number">원
-                <input type="number">수정
+            <div id="item_list">
+                아무거나
             </div>
         </div>
     </section>

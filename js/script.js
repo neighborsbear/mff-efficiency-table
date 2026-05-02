@@ -6,8 +6,10 @@ window.onload = function () {
 
     const sBtn = document.querySelector("#menu_btn .s_btn");
     const cBtn = document.querySelector("#menu_btn .c_btn");
+    const rBtn = document.querySelector("#menu_btn .r_btn");
     const menuS = document.getElementById("menu_s");
     const menuC = document.getElementById("menu_c");
+    const menuR = document.getElementById("menu_r");
 
     // 변동 가치
     const em5 = document.getElementById("5em");
@@ -58,6 +60,12 @@ window.onload = function () {
             menuC.classList.add("on");
         } else {
             menuC.classList.remove("on");
+        }
+
+        if (rBtn.classList.contains("on")) {
+            menuR.classList.add("on");
+        } else {
+            menuR.classList.remove("on");
         }
     }
 
@@ -217,12 +225,21 @@ window.onload = function () {
     cBtn.addEventListener("click", function () {
         cBtn.classList.add("on");
         sBtn.classList.remove("on");
+        rBtn.classList.remove("on");
         updateMenu();
     });
 
     sBtn.addEventListener("click", function () {
         sBtn.classList.add("on");
         cBtn.classList.remove("on");
+        rBtn.classList.remove("on");
+        updateMenu();
+    });
+
+    rBtn.addEventListener("click", function () {
+        rBtn.classList.add("on");
+        cBtn.classList.remove("on");
+        sBtn.classList.remove("on");
         updateMenu();
     });
 

@@ -24,12 +24,15 @@ body{
 
 #top{
     gap: 10px;
+    min-height: 400px;
+    height: 100vh;
 }
 #base{
     min-width: 200px;
     width: 30%;
     max-width: 250px;
     flex-shrink: 0;
+    height: 50vh;
 }
 #base .crystal{
     max-width: 100px;
@@ -47,16 +50,19 @@ body{
     width: max-content
 }
 
-#menu .menu_select{
+#menu{
+    height: 50vh;
+}
+.menu_select{
     display: flex;
     align-items: center;
     gap: 10px;
 }
-#menu #menu_btn span.on{
+.menu_btn span.on{
     font-size: larger;
     font-weight: bold;
 }
-#menu #menu_btn span:not(.on){
+.menu_btn span:not(.on){
     cursor: pointer;
 }
 
@@ -76,12 +82,12 @@ body{
 #menu .list>div{
     position: relative;
     min-width: 150px;
-    width: 30%;
+    width: 25vw;
     max-width: 250px;
     display: flex;
     flex: none;
     flex-direction: column;
-    font-size: clamp(0.5rem, 1vw, 1rem);
+    font-size: clamp(0.666666rem, 1vw, 1rem);
 }
 #menu .item{
     position: relative;
@@ -152,4 +158,28 @@ body{
 }
 #menu .menu_crystal{
     width: 25px;
+}
+
+#calculate{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 10px;
+    min-height: 400px;
+    height: 50vh;
+    width: 100vw;
+}
+#calculate .table{
+    gap: 10px;
+}
+
+#result{
+    min-width: 200px;
+    width: 30%;
+    max-width: 250px;
+    flex-shrink: 0;
+}
+
+#result .check .stand:not(.on){
+    display: none;
 }
