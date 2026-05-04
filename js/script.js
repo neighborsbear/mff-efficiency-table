@@ -162,50 +162,50 @@ window.onload = function () {
         // #t2 계산
         if (t2) {
             const t2Eff = data * 167;
-            t2.textContent = Math.floor(t2Eff).toString().replace(regex, ",");
+            t2.textContent = t2Eff.toString().replace(regex, ",");
         }
 
         // #em 계산
         if (em5) {
             const efficiency = (30000 / result) - 1500;
-            em5.textContent = Math.floor(efficiency).toString().replace(regex, ",");
+            em5.textContent = efficiency.toString().replace(regex, ",");
         }
         // 신화엠블럼 확률 0.4999% 전설엠블럼 확률 1.7%
         if (em6) {
             const efficiency = ((30000 / result) - 1500) * 1.7/ 0.4999;
-            em6.textContent = Math.floor(efficiency).toString().replace(regex, ",");
+            em6.textContent = efficiency.toString().replace(regex, ",");
         }
 
         // #unequip 계산
         if (unequip) {
             const unequipEff = (12000 / result) - 100;
-            unequip.textContent = Math.floor(unequipEff).toString().replace(regex, ",");
+            unequip.textContent = unequipEff.toString().replace(regex, ",");
         }
         // #unoru 계산
         if (unoru) {
             const unoruEff = (12000 / result) - 100;
-            unoru.textContent = Math.floor(unoruEff).toString().replace(regex, ",");
+            unoru.textContent = unoruEff.toString().replace(regex, ",");
         }
 
         // 4티 각 재료별 수정 가치
-        if (t4_1) t4_1.textContent = Math.floor(t4_item1).toString().replace(regex, ",");
-        if (t4_2) t4_2.textContent = Math.floor(t4_item2).toString().replace(regex, ",");
-        if (t4_3) t4_3.textContent = Math.floor(t4_item3).toString().replace(regex, ",");
+        if (t4_1) t4_1.textContent = (t4_item1).toString().replace(regex, ",");
+        if (t4_2) t4_2.textContent = (t4_item2).toString().replace(regex, ",");
+        if (t4_3) t4_3.textContent = (t4_item3).toString().replace(regex, ",");
 
         // 4티 승급권 계산
         if (t4_normal) {
             const t4_normalEff =( t4_item1 * 1000) + (t4_item2 * 800) + (t4_item3 * 1500);
-            t4_normal.textContent = Math.floor(t4_normalEff).toString().replace(regex, ",");
+            t4_normal.textContent = t4_normalEff.toString().replace(regex, ",");
         }
         // 4티 고승권 계산
         if (t4_advanced) {
             const t4_advancedEff =( t4_item1 * (1000 + 1250)) + (t4_item2 * (800 + 5138)) + (t4_item3 * (1500 + 3366));
-            t4_advanced.textContent = Math.floor(t4_advancedEff).toString().replace(regex, ",");
+            t4_advanced.textContent = t4_advancedEff.toString().replace(regex, ",");
         }
         // 프리미엄 4티 고승권 계산
         if (t4_premium) {
             const t4_premiumEff =( t4_item1 * (1500 + 1883 + 1950 + 765)) + (t4_item2 * (1300 + 7903)) + (t4_item3 * (2300 + 5165));
-            t4_premium.textContent = Math.floor(t4_premiumEff).toString().replace(regex, ",");
+            t4_premium.textContent = t4_premiumEff.toString().replace(regex, ",");
         }
 
         // 세트
@@ -296,8 +296,8 @@ window.onload = function () {
         
         let sum = 0;
         allResultSpans.forEach(span => {
-            // 콤마 제거 후 숫자로 변환
-            const val = Number(span.textContent.replace(/,/g, "")) || 0;
+            // 콤마 제거 후 숫자로 변환 (소수점 유지)
+            const val = parseFloat(span.textContent.replace(/,/g, "")) || 0;
             sum += val;
         });
 
@@ -322,7 +322,8 @@ window.onload = function () {
             if (isDuplicate) return;
 
             const imgSrc = this.querySelector("img")?.src;
-            const priceVal = Number(this.querySelector(".price span")?.textContent.replace(/[^0-9]/g, ""));
+            // 초기 가격 가져올 때 소수점 포함 가능하게 parseFloat 사용
+            const priceVal = parseFloat(this.querySelector(".price span")?.textContent.replace(/[^0-9.]/g, ""));
             
             const newDetail = document.createElement("div");
             newDetail.className = originClass;

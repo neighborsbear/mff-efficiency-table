@@ -17,7 +17,10 @@ input{
 img{
     display: block;
 }
-.title, .price span, .efficient span{
+.title{
+    cursor: none;
+}
+.title, .price span, .efficient span, .result_crystal{
     display: inline-block;
     width: 100%;
     max-width: max-content;
@@ -25,7 +28,6 @@ img{
     overflow: hidden;
     text-overflow: ellipsis;
     position: relative; 
-    cursor: none;
 }
 .efficient span{
     /* line-height: 24px; */
