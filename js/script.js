@@ -21,6 +21,7 @@ window.onload = function () {
     const em6 = document.getElementById("6em");
     const unequip = document.getElementById("unequip");
     const unoru = document.getElementById("unoru");
+    const season = document.getElementById("season");
     const t2 = document.getElementById("t2");
     const t4_1 = document.getElementById("t4_1");
     const t4_2 = document.getElementById("t4_2");
@@ -57,8 +58,33 @@ window.onload = function () {
             checkBtns.forEach(b => b.classList.remove("on"));
             this.classList.add("on");
             updateMenu();
+            updateTotalCrystal(); // 탭 전환 시 효율 다시 계산
         });
     });
+
+    // [수정] 문자열 절삭 방식을 사용하여 반올림을 완전히 방지한 포맷팅 함수
+    function formatResult(num) {
+        if (isNaN(num) || num === Infinity || num === -Infinity) return "0";
+
+        // 1. 숫자를 문자열로 변환 (지수 표기법 방지 위해 고정 소수점 사용)
+        let str = num.toFixed(20); 
+        
+        // 2. 소수점 위치 찾기
+        const dotIndex = str.indexOf(".");
+        if (dotIndex !== -1) {
+            // 소수점 자르기 (점 + 소수점 = 13개 문자)
+            str = str.substring(0, dotIndex + 13);
+        }
+
+        // 3. 뒤에 붙은 불필요한 0 제거 (예: 5.5000 -> 5.5) 및 마침표 제거
+        str = parseFloat(str).toString();
+
+        // 4. 천 단위 콤마 추가 (정규식)
+        const parts = str.split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        
+        return parts.join(".");
+    }
 
     // 알려주신 정규식 방식을 사용하여 .price span 요소들만 변경
     function formatPrice() {
@@ -108,11 +134,14 @@ window.onload = function () {
         }
     }
 
+    // [중요] 효율 색상 변경 감지 로직 보강
     function checkEfficiencyClasses() {
+        // 개별 아이템들의 효율 박스들뿐만 아니라 하단 합계 효율 박스도 포함
         const efficientBoxes = document.querySelectorAll(".efficient");
         
         efficientBoxes.forEach(box => {
-            const percentSpan = box.querySelector(".percent");
+            // .percent(개별) 혹은 .all_percent(합계) 요소를 찾음
+            const percentSpan = box.querySelector(".percent, .all_percent");
             if (percentSpan) {
                 const val = parseFloat(percentSpan.textContent.replace(/,/g, ""));
                 
@@ -128,7 +157,6 @@ window.onload = function () {
     function updateValue() {
         const crystalValue = Number(crystal.value);
         const wonValue = Number(won.value);
-        const regex = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
 
         if (crystalValue === 0) {
             value.textContent = "계산 불가";
@@ -137,75 +165,62 @@ window.onload = function () {
 
         // 1수정당 가치 계산
         const result = wonValue / crystalValue;
-        value.textContent = result.toString().replace(regex, ",") + "원";
+        value.textContent = formatResult(result) + "원";
 
         // 재료 가치
         // 생데 가치
-        const data = 1813 / 930
+        const data = 1813 / 930;
 
         // [추가] 티어-4 재료 패키지 계산 (100% 효율 가정)
-        // 1. 패키지 전체의 수정 가치에서 기본 포함 수정(5500)을 뺀 '재료만의 수정 가치'를 구함
         const totalMaterialCrystal = (119000 / result) - 5500;
-
-        /* 
-            2. 가치 비율 적용 (4생씨 = 5팔틴 = 6카보 가치가 동일 가치)
-            개당 가치 비율은 역수 비인 (1/4) : (1/5) : (1/6) 이며,
-            이를 정수비로 환산하면 생씨(15) : 팔틴(12) : 카보(10) 가 됩니다.
-            총 가치 단위(Unit) = (개수 * 가중치)
-            2100*15 + 3800*12 + 4500*10 = 31500 + 45600 + 45000 = 122100
-        */
         const X = totalMaterialCrystal / 122100;
         const t4_item1 = X * 15;
         const t4_item2 = X * 10;
         const t4_item3 = X * 12;
 
+        // #시즌 토큰 계산 30토큰 = 1750수정
+        if (season) {
+            season.textContent = formatResult(1750 / 30);
+        }
+
         // #t2 계산
         if (t2) {
-            const t2Eff = data * 167;
-            t2.textContent = t2Eff.toString().replace(regex, ",");
+            t2.textContent = formatResult(data * 167);
         }
 
         // #em 계산
         if (em5) {
-            const efficiency = (30000 / result) - 1500;
-            em5.textContent = efficiency.toString().replace(regex, ",");
+            em5.textContent = formatResult((30000 / result) - 1500);
         }
-        // 신화엠블럼 확률 0.4999% 전설엠블럼 확률 1.7%
         if (em6) {
-            const efficiency = ((30000 / result) - 1500) * 1.7/ 0.4999;
-            em6.textContent = efficiency.toString().replace(regex, ",");
+            em6.textContent = formatResult(((30000 / result) - 1500) * 1.7 / 0.4999);
         }
 
         // #unequip 계산
         if (unequip) {
-            const unequipEff = (12000 / result) - 100;
-            unequip.textContent = unequipEff.toString().replace(regex, ",");
+            unequip.textContent = formatResult((12000 / result) - 100);
         }
         // #unoru 계산
         if (unoru) {
-            const unoruEff = (12000 / result) - 100;
-            unoru.textContent = unoruEff.toString().replace(regex, ",");
+            unoru.textContent = formatResult((12000 / result) - 100);
         }
 
         // 4티 각 재료별 수정 가치
-        if (t4_1) t4_1.textContent = (t4_item1).toString().replace(regex, ",");
-        if (t4_2) t4_2.textContent = (t4_item2).toString().replace(regex, ",");
-        if (t4_3) t4_3.textContent = (t4_item3).toString().replace(regex, ",");
+        if (t4_1) t4_1.textContent = formatResult(t4_item1);
+        if (t4_2) t4_2.textContent = formatResult(t4_item2);
+        if (t4_3) t4_3.textContent = formatResult(t4_item3);
 
         // 4티 승급권 계산
         if (t4_normal) {
-            const t4_normalEff =( t4_item1 * 1000) + (t4_item2 * 800) + (t4_item3 * 1500);
-            t4_normal.textContent = t4_normalEff.toString().replace(regex, ",");
+            t4_normal.textContent = formatResult((t4_item1 * 1000) + (t4_item2 * 800) + (t4_item3 * 1500));
         }
         // 4티 고승권 계산
         if (t4_advanced) {
-            const t4_advancedEff =( t4_item1 * (1000 + 1250)) + (t4_item2 * (800 + 5138)) + (t4_item3 * (1500 + 3366));
-            t4_advanced.textContent = t4_advancedEff.toString().replace(regex, ",");
+            t4_advanced.textContent = formatResult((t4_item1 * (1000 + 1250)) + (t4_item2 * (800 + 5138)) + (t4_item3 * (1500 + 3366)));
         }
         // 프리미엄 4티 고승권 계산
         if (t4_premium) {
-            const t4_premiumEff =( t4_item1 * (1500 + 1883 + 1950 + 765)) + (t4_item2 * (1300 + 7903)) + (t4_item3 * (2300 + 5165));
-            t4_premium.textContent = t4_premiumEff.toString().replace(regex, ",");
+            t4_premium.textContent = formatResult((t4_item1 * (1500 + 1883 + 1950 + 765)) + (t4_item2 * (1300 + 7903)) + (t4_item3 * (2300 + 5165)));
         }
 
         // 세트
@@ -238,32 +253,21 @@ window.onload = function () {
 
         // 4. #365tier4 계산
         if (t4_365) {
-            // 각 재료의 1개당 가치 (이미 계산된 X 활용)
-            const val1 = X * 15; // 생씨 1개 가치
-            const val2 = X * 10; // 카보 1개 가치
-            const val3 = X * 12; // 팔틴 1개 가치
-
-            // 분자: (365일 총 재료 가치) + (즉시 지급 수정 가치)
-            // 생씨: 20개 * 365일 = 7,300개
-            // 카보: 30개 * 365일 = 10,950개
-            // 팔틴: 25개 * 365일 = 9,125개
-            // 수정 3,300개 지급
+            const val1 = X * 15;
+            const val2 = X * 10;
+            const val3 = X * 12;
             const numerator = (val1 * 7300) + (val2 * 10950) + (val3 * 9125) + 3300;
-
-            // 분모: 45,000원이 현재 가치(result)로 몇 수정인지 계산
             const denominator = 45000 / result;
 
             if (denominator !== 0) {
-                // 효율(%) = (총 가치 / 지불 가치) * 100
                 const t4_365Eff = (numerator / denominator) * 100;
-                
-                // 소수점 처리 및 출력
                 const floorEff = Math.floor(t4_365Eff * 100) / 100;
                 t4_365.textContent = Number(floorEff.toFixed(2)).toLocaleString();
             }
         }
 
         checkEfficiencyClasses();
+        updateTotalCrystal(); // 기준 가치(result)가 변하면 총 효율도 변해야 함
     }
 
     // 1. #info 요소 가져오기
@@ -279,12 +283,12 @@ window.onload = function () {
     const titles = document.querySelectorAll(".title");
     titles.forEach((t) => {
         t.addEventListener("mouseenter", () => {
-            info.textContent = t.textContent.trim(); // 내용 복사
-            info.classList.add("hover"); // 클래스 추가
+            info.textContent = t.textContent.trim(); 
+            info.classList.add("hover"); 
         });
 
         t.addEventListener("mouseleave", () => {
-            info.classList.remove("hover"); // 클래스 제거
+            info.classList.remove("hover"); 
         });
     });
 
@@ -292,18 +296,57 @@ window.onload = function () {
     function updateTotalCrystal() {
         const allResultSpans = document.querySelectorAll("#check_list .result_crystal");
         const totalOutput = document.querySelector(".all_crystal .result_crystal");
-        const regex = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
+        const allPercentOutput = document.querySelector(".efficient .all_percent");
         
         let sum = 0;
         allResultSpans.forEach(span => {
-            // 콤마 제거 후 숫자로 변환 (소수점 유지)
             const val = parseFloat(span.textContent.replace(/,/g, "")) || 0;
             sum += val;
         });
 
         if (totalOutput) {
-            totalOutput.textContent = sum.toString().replace(regex, ",");
+            // [수정] .result_crystal 전용 99999 보정
+            let tempStr = sum.toFixed(15);
+            if (/\.9{5,}/.test(tempStr)) {
+                totalOutput.textContent = formatResult(Math.round(sum));
+            } else {
+                totalOutput.textContent = formatResult(sum);
+            }
         }
+
+        // [추가] 효율 계산 로직
+        if (allPercentOutput) {
+            const checkCash = document.getElementById("check_cash");
+            const checkCrystal = document.getElementById("check_crystal");
+            const allCrystalSum = sum;
+            let finalEff = 0;
+
+            if (checkCash.classList.contains("on")) {
+                const cashInput = checkCash.querySelector("input");
+                const resultVal = Number(won.value) / Number(crystal.value); // const result 값 가져오기
+                const cashValue = Number(cashInput.value) || 0;
+
+                // 계산: (전체수정합계 / (현금입력 / 1수정가치)) * 100
+                if (allCrystalSum !== 0 && resultVal !== 0 && cashValue !== 0) {
+                    finalEff = (allCrystalSum / (cashValue / resultVal)) * 100;
+                }
+            } else if (checkCrystal.classList.contains("on")) {
+                const crystalInput = checkCrystal.querySelector("input");
+                const inputCrystalValue = Number(crystalInput.value) || 0;
+
+                // [수정] 수정 활성화 시: (전체수정합계 / 수정입력) * 100
+                if (allCrystalSum !== 0 && inputCrystalValue !== 0) {
+                    finalEff = (allCrystalSum / inputCrystalValue) * 100;
+                }
+            }
+
+            // 소수점 3번째에서 버려 2번째 자리까지 표시 (Math.floor(* 100) / 100)
+            const floorEff = Math.floor(finalEff * 100) / 100;
+            allPercentOutput.textContent = floorEff.toLocaleString();
+        }
+
+        // [핵심] 합계가 계산된 후 반드시 효율 클래스 체크를 실행하여 색상 반영
+        checkEfficiencyClasses();
     }
 
     // 4. 아이템 클릭 시 선택 목록(#check_list)에 추가하는 기능
@@ -315,20 +358,19 @@ window.onload = function () {
             const originClass = this.getAttribute("class");
             const titleText = this.querySelector(".title")?.textContent.trim();
 
-            // [중복 체크]
             const isDuplicate = Array.from(checkList.querySelectorAll(".title"))
                 .some(existingTitle => existingTitle.textContent.trim() === titleText);
 
             if (isDuplicate) return;
 
             const imgSrc = this.querySelector("img")?.src;
-            // 초기 가격 가져올 때 소수점 포함 가능하게 parseFloat 사용
-            const priceVal = parseFloat(this.querySelector(".price span")?.textContent.replace(/[^0-9.]/g, ""));
+            
+            const rawPriceText = this.querySelector(".price span")?.textContent.replace(/,/g, "") || "0";
+            const priceVal = parseFloat(rawPriceText);
             
             const newDetail = document.createElement("div");
             newDetail.className = originClass;
 
-            // 요청하신 대로 <div class="delete">X</div> 추가
             newDetail.innerHTML = `
                 <div class="item">
                     <img class="front" src="${imgSrc}" alt="${titleText}">
@@ -337,47 +379,44 @@ window.onload = function () {
                 </div>
                 <h2 class="title">${titleText}</h2>
                 <h3 class="price flex">
-                    <span class="check_crystal">${priceVal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</span>
+                    <span class="check_crystal">${formatResult(priceVal)}</span>
                     <img class="info_crystal" src="img/item/cash.png" alt="수정">
                     <span>×</span>
                     <input type="number" class="check_input" value="1" min="1">
                 </h3>
                 <h2 class="result flex">
                     <span>총</span>
-                    <span class="result_crystal">${priceVal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}</span>
+                    <span class="result_crystal">${formatResult(priceVal)}</span>
                     <img class="info_crystal" src="img/item/cash.png" alt="수정">
                 </h2>
             `;
 
-            // [삭제 로직] .delete 버튼을 눌렀을 때만 삭제
             const deleteBtn = newDetail.querySelector(".delete");
             deleteBtn.addEventListener("click", function() {
                 newDetail.remove();
-                updateTotalCrystal(); // 삭제 시 전체 합계 갱신
+                updateTotalCrystal(); 
             });
 
-            // 수량 변경 시 실시간 결과 값 계산 로직
             const input = newDetail.querySelector(".check_input");
             const resultCrystal = newDetail.querySelector(".result_crystal");
-            const regex = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
 
             input.addEventListener("input", function() {
-                // 1. 현재 입력된 수량 가져오기 (비어있으면 0)
                 const count = Number(this.value) || 0;
-                
-                // 2. 총액 계산 (개당 가격 * 수량)
                 const total = count * priceVal;
                 
-                // 3. 3자리마다 콤마를 찍어서 출력
-                resultCrystal.textContent = total.toString().replace(regex, ",");
+                let tempStr = total.toFixed(15);
+                if (/\.9{5,}/.test(tempStr)) {
+                    resultCrystal.textContent = formatResult(Math.round(total));
+                } else {
+                    resultCrystal.textContent = formatResult(total);
+                }
                 
-                updateTotalCrystal(); // 수량 변경 시 전체 합계 갱신
+                updateTotalCrystal(); 
             });
 
             checkList.appendChild(newDetail);
-            updateTotalCrystal(); // 아이템 추가 시 전체 합계 갱신
+            updateTotalCrystal(); 
 
-            // 동적 생성된 아이템의 타이틀 호버 처리
             const t = newDetail.querySelector(".title");
             t.addEventListener("mouseenter", () => {
                 info.textContent = t.textContent.trim();
@@ -389,11 +428,22 @@ window.onload = function () {
         });
     });
 
-    // 초기 실행 및 이벤트 바인딩
+    // #check_cash 내의 input 값이 변할 때도 효율 계산 업데이트
+    const checkCashInput = document.querySelector("#check_cash input");
+    if (checkCashInput) {
+        checkCashInput.addEventListener("input", updateTotalCrystal);
+    }
+
+    // [추가] #check_crystal 내의 input 값이 변할 때도 효율 계산 업데이트
+    const checkCrystalInput = document.querySelector("#check_crystal input");
+    if (checkCrystalInput) {
+        checkCrystalInput.addEventListener("input", updateTotalCrystal);
+    }
+
     formatPrice();
     updateValue();
     updateMenu();
-    updateTotalCrystal(); // 페이지 로드 시 초기 합계 0 출력
+    updateTotalCrystal(); 
     
     crystal.addEventListener("input", updateValue);
     won.addEventListener("input", updateValue);
