@@ -137,7 +137,7 @@ window.onload = function () {
 
         // 1수정당 가치 계산
         const result = wonValue / crystalValue;
-        value.textContent = result.toLocaleString(undefined, {maximumFractionDigits: 2}) + "원";
+        value.textContent = result.toString().replace(regex, ",") + "원";
 
         // 재료 가치
         // 생데 가치
