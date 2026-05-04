@@ -447,4 +447,27 @@ window.onload = function () {
     
     crystal.addEventListener("input", updateValue);
     won.addEventListener("input", updateValue);
+
+    // [기본 아이템 이벤트 연결] 처음부터 check_list에 들어있는 '수정' 아이템 대응
+    const defaultItem = checkList.querySelector(".수정");
+    if (defaultItem) {
+        const defInput = defaultItem.querySelector(".check_input");
+        const defResultCrystal = defaultItem.querySelector(".result_crystal");
+        const defPriceVal = parseFloat(defaultItem.querySelector(".check_crystal").textContent.replace(/,/g, "")) || 0;
+
+        defInput.addEventListener("input", function() {
+            const count = Number(this.value) || 0;
+            const total = count * defPriceVal;
+            
+            // 99999 보정 및 포맷팅 적용
+            let tempStr = total.toFixed(15);
+            if (/\.9{5,}/.test(tempStr)) {
+                defResultCrystal.textContent = formatResult(Math.round(total));
+            } else {
+                defResultCrystal.textContent = formatResult(total);
+            }
+            
+            updateTotalCrystal(); // 하단 전체 합계 및 효율 갱신
+        });
+    }
 };
