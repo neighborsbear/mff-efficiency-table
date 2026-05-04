@@ -11,8 +11,14 @@ window.onload = function () {
     const menuC = document.getElementById("menu_c");
     const menuR = document.getElementById("menu_r");
 
+    const cmbtn_cash = document.querySelector("#check_menu_btn .cmbtn_cash");
+    const cmbtn_crystal = document.querySelector("#check_menu_btn .cmbtn_crystal");
+    const check_cash = document.getElementById("check_cash");
+    const check_crystal = document.getElementById("check_crystal");
+
     // 변동 가치
     const em5 = document.getElementById("5em");
+    const em6 = document.getElementById("6em");
     const unequip = document.getElementById("unequip");
     const unoru = document.getElementById("unoru");
     const t2 = document.getElementById("t2");
@@ -30,8 +36,42 @@ window.onload = function () {
     const everyx = document.getElementById("everyx");
     const t4_365 = document.getElementById("365tier4");
 
-    // 페이지 처음 들어오면 s_btn에 on 클래스 추가
+    // 페이지 처음 들어오면 기본 버튼에 on 클래스 추가
     sBtn.classList.add("on");
+    cmbtn_cash.classList.add("on");
+
+    cBtn.addEventListener("click", function () {
+        cBtn.classList.add("on");
+        sBtn.classList.remove("on");
+        rBtn.classList.remove("on");
+        updateMenu();
+    });
+
+    sBtn.addEventListener("click", function () {
+        sBtn.classList.add("on");
+        cBtn.classList.remove("on");
+        rBtn.classList.remove("on");
+        updateMenu();
+    });
+
+    rBtn.addEventListener("click", function () {
+        rBtn.classList.add("on");
+        cBtn.classList.remove("on");
+        sBtn.classList.remove("on");
+        updateMenu();
+    });
+
+    cmbtn_cash.addEventListener("click", function () {
+        cmbtn_cash.classList.add("on");
+        cmbtn_crystal.classList.remove("on");
+        updateMenu();
+    });
+
+    cmbtn_crystal.addEventListener("click", function () {
+        cmbtn_crystal.classList.add("on");
+        cmbtn_cash.classList.remove("on");
+        updateMenu();
+    });
 
     // 알려주신 정규식 방식을 사용하여 #menu .price span 요소들만 변경
     function formatPrice() {
@@ -66,6 +106,18 @@ window.onload = function () {
             menuR.classList.add("on");
         } else {
             menuR.classList.remove("on");
+        }
+
+        if (cmbtn_cash.classList.contains("on")) {
+            check_cash.classList.add("on");
+        } else {
+            check_cash.classList.remove("on");
+        }
+
+        if (cmbtn_crystal.classList.contains("on")) {
+            check_crystal.classList.add("on");
+        } else {
+            check_crystal.classList.remove("on");
         }
     }
 
@@ -126,10 +178,15 @@ window.onload = function () {
             t2.textContent = t2Eff.toString().replace(regex, ",");
         }
 
-        // #5em 계산
+        // #em 계산
         if (em5) {
             const efficiency = (30000 / result) - 1500;
             em5.textContent = efficiency.toString().replace(regex, ",");
+        }
+        // 신화엠블럼 확률 0.4999% 전설엠블럼 확률 1.7%
+        if (em6) {
+            const efficiency = ((30000 / result) - 1500) * 1.7/ 0.4999;
+            em6.textContent = efficiency.toString().replace(regex, ",");
         }
 
         // #unequip 계산
@@ -221,27 +278,6 @@ window.onload = function () {
 
         checkEfficiencyClasses();
     }
-
-    cBtn.addEventListener("click", function () {
-        cBtn.classList.add("on");
-        sBtn.classList.remove("on");
-        rBtn.classList.remove("on");
-        updateMenu();
-    });
-
-    sBtn.addEventListener("click", function () {
-        sBtn.classList.add("on");
-        cBtn.classList.remove("on");
-        rBtn.classList.remove("on");
-        updateMenu();
-    });
-
-    rBtn.addEventListener("click", function () {
-        rBtn.classList.add("on");
-        cBtn.classList.remove("on");
-        sBtn.classList.remove("on");
-        updateMenu();
-    });
 
     formatPrice();
     updateValue();

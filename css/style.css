@@ -17,6 +17,23 @@ input{
 img{
     display: block;
 }
+.title, .price span, .efficient span{
+    display: inline-block;
+    width: 100%;
+    max-width: max-content;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative; 
+    cursor: none;
+}
+.efficient span{
+    /* line-height: 24px; */
+    overflow: visible;
+}
+.check_input{
+    max-width: 50%;
+}
 
 body{
     padding-left: 10px;
@@ -57,6 +74,7 @@ body{
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 .menu_btn span.on{
     font-size: larger;
@@ -66,7 +84,7 @@ body{
     cursor: pointer;
 }
 
-#menu .list{
+#menu .list, .list{
     display: flex;
     gap: 10px;
     overflow-x: auto;
@@ -75,11 +93,11 @@ body{
 #menu .list:not(.on){
     display: none;
 }
-#menu .list::after{
+#menu .list::after, .list::after{
     content: '';
     flex: 0 0 10px; 
 }
-#menu .list>div{
+#menu .list>div, .list>div{
     position: relative;
     min-width: 150px;
     width: 25vw;
@@ -89,14 +107,16 @@ body{
     flex-direction: column;
     font-size: clamp(0.666666rem, 1vw, 1rem);
 }
-#menu .item{
+#menu .item, .item{
     position: relative;
 }
-#menu .price{
-    gap: 10px;
+#menu .price, .price, .result{
+    gap: clamp(2px, .4vw, 10px);
+    align-items: center;
 }
-#menu .price .efficient{
+#menu .price .efficient, .efficient{
     /* font-size: 1.17rem; */
+    max-width: max-content;
     padding: 0 .5em;
     border-radius: 250px;
     border: solid 2px rgb(0, 255, 6);
@@ -105,11 +125,11 @@ body{
     color: white;
     text-shadow: 1px 1px 2px black;
 }
-#menu .price .efficient.up{
+#menu .price .efficient.up, .efficient.up{
     border: solid 2px rgb(255, 28, 0);
     background: rgb(198, 39, 19);
 }
-#menu .front{
+.item .front{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -118,21 +138,12 @@ body{
     display: flex;
     justify-content: center;
 }
-#menu .back{
+.item .back{
     position: relative;
     z-index: -1;
     width: 100%;
 }
-#menu .title{
-    display: inline-block;
-    width: 100%;
-    max-width: max-content;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    position: relative; 
-    cursor: none;
-}
+
 #info{
     position: absolute;
     display: none;
@@ -156,16 +167,21 @@ body{
     box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     pointer-events: none;
 }
-#menu .menu_crystal{
+.info_crystal{
     width: 25px;
+    min-width: 25px;
 }
 
 #calculate{
     position: absolute;
+    /* display: flex;
+    align-items: flex-end; */
     left: 0;
     bottom: 0;
-    padding: 10px;
-    min-height: 400px;
+    /* padding: 10px; */
+    padding-left: 10px;
+    padding-top: 10px;
+    min-height: 300px;
     height: 50vh;
     width: 100vw;
 }
