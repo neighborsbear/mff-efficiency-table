@@ -199,3 +199,14 @@ body{
 #result .check .stand:not(.on){
     display: none;
 }
+
+#check_list>div .item .delete{
+    content: "X";
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-weight: bold;
+    color: white;
+    text-shadow: -2px 0px black, 0px 2px black, 2px 0px black, 0px -2px black;;
+    cursor: pointer;
+}
