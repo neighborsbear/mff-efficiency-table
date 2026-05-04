@@ -73,9 +73,9 @@ window.onload = function () {
         updateMenu();
     });
 
-    // 알려주신 정규식 방식을 사용하여 #menu .price span 요소들만 변경
+    // 알려주신 정규식 방식을 사용하여 .price span 요소들만 변경
     function formatPrice() {
-        const prices = document.querySelectorAll("#menu .price span");
+        const prices = document.querySelectorAll(".price span");
         const regex = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
 
         prices.forEach(span => {
