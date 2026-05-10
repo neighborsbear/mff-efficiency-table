@@ -19,6 +19,7 @@ window.onload = function () {
     // 변동 가치
     const em5 = document.getElementById("5em");
     const em6 = document.getElementById("6em");
+    const pri4 = document.getElementById("pri4");
     const unequip = document.getElementById("unequip");
     const unoru = document.getElementById("unoru");
     const season = document.getElementById("season");
@@ -186,6 +187,52 @@ window.onload = function () {
         // #t2 계산
         if (t2) {
             t2.textContent = formatResult(data * 167);
+        }
+
+        // #pri 계산
+        if (pri4) {
+            pri4.textContent = formatResult((30000 / result) - 1000);
+        }
+        if (pri5) {
+            pri5.textContent = formatResult((45000 / result) - 1500);
+        }
+        // 추측 1 솔직히 말이 안됨
+        // if (pri6) {
+        //     pri6.textContent = formatResult((60000 / result) - 2000);
+        // }
+        // 추측 2 4성 기반 확률 가치
+        // if (pri6) {
+        //     const p4 = 0.02;     // 4성 확률
+        //     const v4 = 3400;     // 4성 가치
+        //     const p6 = 0.01;     // 6성 확률
+            
+        //     // 공식: p4 * v4 = p6 * v6  =>  v6 = (p4 * v4) / p6
+            
+        //     pri6.textContent = formatResult((p4 * v4) / p6);
+        // }
+
+        // 가치 증가 정비례 기반 추측
+        if (pri6) {
+            // 1. 기본 데이터 설정
+            const p4 = 0.02;    // 4성 확률
+            const v4 = (30000 / result) - 1000;    // 4성 가치 (수정)
+            const p5 = 0.015;   // 5성 확률
+            const v5 = (45000 / result) - 1500;    // 5성 가치 (수정)
+            const p6 = 0.01;    // 6성 확률
+
+            // 2. 등급별 기대 가치(Expected Value) 계산
+            const ev4 = p4 * v4; // 68
+            const ev5 = p5 * v5; // 76.5
+
+            // 3. 4성 대비 5성의 가치 상승률(프리미엄) 계산
+            const premiumRatio = ev5 / ev4; // 약 1.125 상승
+
+            // 4. 6성에 동일한 프리미엄 적용하여 기대 가치 도출
+            // 5성 기대 가치에 상승률을 한 번 더 곱함
+            const ev6 = ev5 * premiumRatio; // 76.5 * 1.125 = 86.0625
+
+            // 5. 기대 가치를 확률로 나누어 6성의 최종 '수정 가치' 산출
+            pri6.textContent = formatResult(ev6 / p6); // 8606.25 수정
         }
 
         // #em 계산
